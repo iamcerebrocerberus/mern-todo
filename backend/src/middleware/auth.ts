@@ -25,7 +25,10 @@ export const authenticateToken = (req: Request, res: Response, next: NextFunctio
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET!) as any;
-    req.user = decoded; 
+    req.user = {
+      id: decoded.userId,
+      email: decoded.email
+    }; 
     next(); 
   } catch (error) {
     return res.status(403).json({
